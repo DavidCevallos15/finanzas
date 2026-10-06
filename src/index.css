@@ -1,0 +1,276 @@
+/* ── Design System: DC.dev Portfolio v3 ─────────────────────────────────────── */
+/* Skills applied: ui-ux-pro-max + design-taste-frontend                         */
+/* Design Read: developer portfolio / dark-tech / AI-engineering                 */
+/* Dials: DESIGN_VARIANCE:6 | MOTION_INTENSITY:6 | VISUAL_DENSITY:4             */
+
+/* Self-hosted Google Fonts via @import (production: replace with next/font or @font-face) */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Geist+Mono:wght@400;500;700&display=swap');
+
+@import "tailwindcss";
+
+/* ==========================================
+   PALETA "MERCURIO DIGITAL" - CONFIGURACIÓN
+   ========================================== */
+
+/* Por defecto, la web iniciará en Modo Oscuro (Recomendado para tu perfil) */
+:root {
+  --bg-main: #0B0F19;         /* 60% Fondo Espacial */
+  --bg-void: #0F0F1A;         /* Fondo Void */
+  --bg-card: #161B2A;         /* 30% Componentes y código */
+  --text-primary: #F4F6FC;    /* Texto de alta legibilidad */
+  --text-secondary: #8A99AD;  /* Subtítulos o documentación */
+  --text-secondary-subtle: #52515F;
+  --accent-gemini: #E2B65C;   /* 10% Oro Mercurial (CTAs principales) */
+  --accent-gemini-rgb: 226, 182, 92;
+  --accent-cyber: #00B4D8;    /* 10% Cian Eléctrico (Tags IA/DevSecOps, iconos) */
+  --border-color: #242C42;    /* Bordes sutiles para código o tarjetas */
+}
+
+/* Cuando el usuario o el sistema activa el Modo Claro */
+[data-theme="light"] {
+  --bg-main: #F4F6FC;         /* 60% Fondo Platino */
+  --bg-void: #EBF0FA;         /* Fondo Void Claro */
+  --bg-card: #FFFFFF;         /* 30% Tarjetas limpias */
+  --text-primary: #0B0F19;    /* Texto oscuro profundo */
+  --text-secondary: #52627A;  /* Subtítulos legibles en claro */
+  --text-secondary-subtle: #7E8B9B;
+  --accent-gemini: #C29438;   /* Oro adaptado para contraste en fondo claro */
+  --accent-gemini-rgb: 194, 148, 56;
+  --accent-cyber: #0077B6;    /* Cian adaptado para accesibilidad */
+  --border-color: #E2E7F4;    /* Bordes suaves para modo claro */
+}
+
+@theme {
+  /* Typography — Space Grotesk (anti-Inter, §4.1) + Geist Mono */
+  --font-sans: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
+
+  /* Color Palette — Dark Tech / AI Engineering (§4.2) */
+  /* Base surfaces */
+  --color-obsidian:  var(--bg-main);
+  --color-void:      var(--bg-void);
+  --color-surface:   var(--bg-card);
+  --color-border:    var(--border-color);
+
+  /* Accent: Electric Violet + Cyan (developer/AI brand — NOT AI-purple slop) */
+  --color-accent-primary:  var(--accent-gemini);
+  --color-accent-primary-rgb: var(--accent-gemini-rgb);
+  --color-accent-electric: var(--accent-cyber);   /* Cyan-400 — tech, precise */
+  --color-accent-green:    #34D399;   /* Emerald-400 — success/status */
+
+  /* Text */
+  --color-text-primary: var(--text-primary);
+  --color-text-muted:   var(--text-secondary);
+  --color-text-subtle:  var(--text-secondary-subtle);
+
+  /* Semantic */
+  --color-danger:  #F43F5E;
+  --color-success: #34D399;
+
+  /* Spacing scale references (used in component classes) */
+  --section-gap: 7rem;
+}
+
+
+/* ── Base Layer ───────────────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;   /* §UX: Smooth scroll on anchor links */
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-obsidian);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    overflow-x: hidden;        /* §UX: No horizontal scroll */
+  }
+
+  /* Focus ring — WCAG AA keyboard nav (§4.5) */
+  :focus-visible {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Reduced motion — §6.B mandatory */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ── Utility Layer ────────────────────────────────────────────────────────────── */
+@layer utilities {
+  .text-balance  { text-wrap: balance; }
+  .text-pretty   { text-wrap: pretty; }
+
+  /* GPU compositing hint — use sparingly (§6.A) */
+  .gpu { transform: translateZ(0); will-change: transform; }
+
+  /* Glassmorphism backdrop (§5 — context-aware) */
+  .blur-backdrop { backdrop-filter: blur(20px) saturate(180%); }
+
+  /* Liquid Glass approx — used only for navbar (§Appendix C) */
+  .glass-nav {
+    background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    backdrop-filter: blur(20px) saturate(180%) contrast(1.05);
+    -webkit-backdrop-filter: blur(20px) saturate(180%) contrast(1.05);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 40px rgba(0,0,0,0.4);
+  }
+
+  /* Section rhythm */
+  .section-pad { padding-top: var(--section-gap); padding-bottom: var(--section-gap); }
+
+  /* Contained max-width — consistent §3.E */
+  .container-lg { max-width: 1400px; margin-inline: auto; padding-inline: 1.5rem; }
+
+  /* Gradient text utility */
+  .gradient-text {
+    background: linear-gradient(135deg, var(--color-accent-primary) 0%, var(--color-accent-electric) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Dot grid texture (replaces DottedSurface noise) */
+  .dot-grid {
+    background-image: radial-gradient(circle, rgba(var(--accent-gemini-rgb), 0.15) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+}
+
+/* ── Art Gallery Marquee ──────────────────────────────────────────────────────── */
+/* Only ONE marquee per page (§5 MARQUEE MAX-ONE-PER-PAGE) */
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-33.3333%); }
+}
+
+.marquee-track {
+  animation: marquee-scroll 300s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ── Glow Orb Blobs (hero background) ───────────────────────────────────────── */
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.08; transform: scale(1); }
+  50%       { opacity: 0.14; transform: scale(1.05); }
+}
+
+.glow-orb {
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  animation: glow-pulse 8s ease-in-out infinite;
+}
+
+/* ── Easter Egg: Hero Photo Glitch ──────────────────────────────────────────── */
+@keyframes glitch-shift {
+  0%   { transform: translate(0, 0);   filter: hue-rotate(0deg) saturate(1); }
+  10%  { transform: translate(-3px, 1px); filter: hue-rotate(90deg) saturate(3); }
+  20%  { transform: translate(3px, -1px); filter: hue-rotate(180deg) saturate(2); }
+  30%  { transform: translate(-2px, 2px); filter: hue-rotate(270deg) saturate(4); }
+  40%  { transform: translate(2px, -2px); filter: hue-rotate(0deg) saturate(3); }
+  50%  { transform: translate(-4px, 0px); filter: hue-rotate(120deg) saturate(2); }
+  60%  { transform: translate(4px, 1px);  filter: hue-rotate(240deg) saturate(5); }
+  70%  { transform: translate(-1px, -1px);filter: hue-rotate(90deg) saturate(2); }
+  80%  { transform: translate(1px, 2px);  filter: hue-rotate(180deg) saturate(3); }
+  90%  { transform: translate(-3px, -2px);filter: hue-rotate(300deg) saturate(4); }
+  100% { transform: translate(0, 0);   filter: hue-rotate(0deg) saturate(1); }
+}
+
+@keyframes glitch-clip-r {
+  0%,100% { clip-path: inset(0 0 92% 0); transform: translateX(3px); opacity: 0.7; }
+  25%  { clip-path: inset(30% 0 50% 0); transform: translateX(-3px); }
+  50%  { clip-path: inset(60% 0 20% 0); transform: translateX(4px); }
+  75%  { clip-path: inset(10% 0 75% 0); transform: translateX(-2px); }
+}
+
+@keyframes glitch-clip-b {
+  0%,100% { clip-path: inset(80% 0 5% 0);  transform: translateX(-4px); opacity: 0.5; }
+  33%  { clip-path: inset(20% 0 65% 0); transform: translateX(3px); }
+  66%  { clip-path: inset(50% 0 35% 0); transform: translateX(-3px); }
+}
+
+.glitch-active {
+  animation: glitch-shift 0.08s steps(1) infinite;
+  position: relative;
+}
+.glitch-active::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 0, 80, 0.15);
+  animation: glitch-clip-r 0.12s steps(1) infinite;
+  z-index: 30;
+  pointer-events: none;
+}
+.glitch-active::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 200, 255, 0.12);
+  animation: glitch-clip-b 0.1s steps(1) infinite;
+  z-index: 30;
+  pointer-events: none;
+}
+
+/* ── Easter Egg: Literary Modal — Terminal cursor ────────────────────────────── */
+@keyframes terminal-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.terminal-cursor::after {
+  content: '█';
+  animation: terminal-blink 1s step-start infinite;
+  color: var(--color-accent-electric);
+}
+
+@keyframes scanline {
+  0% { top: -10%; }
+  100% { top: 110%; }
+}
+
+.terminal-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.15), transparent);
+  animation: scanline 4s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Easter Egg: Destroy animation ──────────────────────────────────────────── */
+@keyframes shake-destroy {
+  0%,100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-3px) rotate(-0.5deg); }
+  20%, 40%, 60%, 80% { transform: translateX(3px) rotate(0.5deg); }
+}
+
+.destroy-shake {
+  animation: shake-destroy 0.3s ease-in-out 2;
+}
+
+/* Hide scrollbars inside all iframes globally */
+iframe {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+iframe::-webkit-scrollbar {
+  display: none !important;
+}
+

@@ -1,0 +1,40 @@
+/* Misma paleta "Mercurio Digital" que la web principal: se importa su index.css
+   (variables --bg-main, --accent-gemini, etc., tema claro/oscuro, fuentes y utilidades)
+   y aquí solo se añaden alias cortos para esta página. Si cambias la marca en index.css,
+   esta página la hereda sola. */
+@import './index.css';
+
+@theme {
+  --color-ink: var(--bg-main);
+  --color-panel: var(--bg-card);
+  --color-line: var(--border-color);
+  --color-fg: var(--text-primary);
+  --color-muted: var(--text-secondary);
+  --color-gold: var(--accent-gemini);
+  --color-cyber: var(--accent-cyber);
+
+  /* Texto sobre botones dorados: siempre oscuro, también en tema claro. */
+  --color-on-gold: #0b0f19;
+
+  /* Semáforo del dashboard. */
+  --color-ok: #34d399;
+  --color-warn: #fbbf24;
+  --color-bad: #f87171;
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
